@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { TasinmazList } from 'src/app/tasinmaz-list/tasinmaz-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AddTasinmazComponent } from './add-tasinmaz/add-tasinmaz.component';
+import { ReactiveFormsModule,FormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -15,7 +17,9 @@ import { AddTasinmazComponent } from './add-tasinmaz/add-tasinmaz.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

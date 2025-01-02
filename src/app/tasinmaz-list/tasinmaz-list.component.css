@@ -39,6 +39,11 @@ body {
   left: 40px;
   border: none;
 }
+.checkbox-input {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
 
 .search-container {
   display: flex;
@@ -102,8 +107,11 @@ th {
   justify-content: center;
   margin: 20px 0;
   gap: 5px;
+  width: 80%;
 }
-
+.table-container {
+  justify-content: center;
+}
 .pagination button {
   padding: 8px 12px;
   background: rgba(255, 255, 255, 0.1);
@@ -119,6 +127,7 @@ th {
   justify-content: center;
   gap: 20px;
   padding: 20px;
+  width: 80%;
 }
 
 .control-btn {

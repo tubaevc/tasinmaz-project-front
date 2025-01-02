@@ -34,117 +34,71 @@
           <button class="search-btn"><i class="fas fa-search"></i> Ara</button>
         </div>
       </div>
-
-      <div class="table">
+      <div class="table-container">
         <table border="1">
           <thead>
             <tr>
-              <!-- <th>Id</th> -->
+              <th>
+                <input
+                  type="checkbox"
+                  [checked]="allSelected"
+                  (change)="toggleSelectAll($event)"
+                />
+              </th>
               <th>İl</th>
               <th>İlçe</th>
               <th>Mahalle</th>
               <th>Ada</th>
               <th>Parsel</th>
-              <th>Nitelik</th>
-              <th>Adres</th>
-              <th>Koordinat</th>
+              <th>Sil</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let tasinmaz of tasinmazlar">
-              <!-- <td>{{ tasinmaz.id }}</td> -->
+              <td>
+                <input
+                  type="checkbox"
+                  [(ngModel)]="tasinmaz.selected"
+                  (change)="onSelectionChange()"
+                />
+              </td>
               <td>{{ tasinmaz.mahalle.ilce.il.ilAdi }}</td>
               <td>{{ tasinmaz.mahalle.ilce.ilceAdi }}</td>
               <td>{{ tasinmaz.mahalle.mahalleAdi }}</td>
               <td>{{ tasinmaz.ada }}</td>
               <td>{{ tasinmaz.parsel }}</td>
-              <td>{{ tasinmaz.nitelik }}</td>
-              <td>{{ tasinmaz.adres }}</td>
-              <td>{{ tasinmaz.koordinat }}</td>
+              <td>
+                <button (click)="deleteTasinmaz(tasinmaz.id)">Sil</button>
+              </td>
             </tr>
-            <!-- <tr>
-              <td>Ankara</td>
-              <td>Çankaya</td>
-              <td>Kızılay</td>
-              <td>205</td>
-              <td>12</td>
-              <td>İşyeri</td>
-              <td>Atatürk Blv. No:456</td>
-            </tr>
-            <tr>
-              <td>Ankara</td>
-              <td>Çankaya</td>
-              <td>Kızılay</td>
-              <td>205</td>
-              <td>12</td>
-              <td>İşyeri</td>
-              <td>Atatürk Blv. No:456</td>
-            </tr>
-            <tr>
-              <td>Ankara</td>
-              <td>Çankaya</td>
-              <td>Kızılay</td>
-              <td>205</td>
-              <td>12</td>
-              <td>İşyeri</td>
-              <td>Atatürk Blv. No:456</td>
-            </tr>
-            <tr>
-              <td>Ankara</td>
-              <td>Çankaya</td>
-              <td>Kızılay</td>
-              <td>205</td>
-              <td>12</td>
-              <td>İşyeri</td>
-              <td>Atatürk Blv. No:456</td>
-            </tr>
-            <tr>
-              <td>Ankara</td>
-              <td>Çankaya</td>
-              <td>Kızılay</td>
-              <td>205</td>
-              <td>12</td>
-              <td>İşyeri</td>
-              <td>Atatürk Blv. No:456</td>
-            </tr>
-            <tr>
-              <td>Ankara</td>
-              <td>Çankaya</td>
-              <td>Kızılay</td>
-              <td>205</td>
-              <td>12</td>
-              <td>İşyeri</td>
-              <td>Atatürk Blv. No:456</td>
-            </tr> -->
           </tbody>
         </table>
-      </div>
 
-      <div class="pagination">
-        <button><i class="fas fa-chevron-left"></i></button>
-        <button>1</button>
-        <button>2</button>
-        <button>3</button>
-        <button>4</button>
-        <button>5</button>
-        <button>6</button>
-        <button>...</button>
-        <button><i class="fas fa-chevron-right"></i></button>
-      </div>
-
-      <div class="controls">
-        <button class="control-btn">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button class="control-btn">
-          <i class="fas fa-sync-alt"></i>
-        </button>
-        <button class="control-btn">
-          <i class="fas fa-trash"></i>
-        </button>
-        <button class="control-btn">
-          <i class="fas fa-bars"></i>
-        </button>
+        <div class="controls">
+          <button class="control-btn" [routerLink]="['/add-tasinmaz']">
+            <i class="fas fa-plus"></i>
+          </button>
+          <button class="control-btn">
+            <i class="fas fa-sync-alt"></i>
+          </button>
+          <button class="control-btn" (click)="deleteSelected()">
+            <i class="fas fa-trash"></i>
+          </button>
+          <button class="control-btn">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+        <div class="pagination">
+          <button><i class="fas fa-chevron-left"></i></button>
+          <button>1</button>
+          <button>2</button>
+          <button>3</button>
+          <button>4</button>
+          <button>5</button>
+          <button>6</button>
+          <button>...</button>
+          <button><i class="fas fa-chevron-right"></i></button>
+        </div>
       </div>
     </div>
   </body>

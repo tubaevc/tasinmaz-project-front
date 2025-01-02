@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-
+import { Tasinmaz } from 'src/models/tasinmaz-model';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,4 +16,25 @@ export class ApiService {
   getAllTasinmaz(): Observable<any> {
     return this.http.get(`${this.baseUrl}/Tasinmaz`);
   }
+  getIller(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/Iller`);
+  }
+
+  getIlceler(ilId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/Ilce/by-il/${ilId}`);
+  }
+
+  getMahalleler(ilceId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/Mahalle/by-ilce/${ilceId}`);
+  }
+
+  addTasinmaz(tasinmaz: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/Tasinmaz`, tasinmaz);
+  }
+
+  deleteMultipleTasinmaz(ids: number[]): Observable<any> {
+    return this.http.post(`${this.baseUrl}/Tasinmaz/multi-delete`, ids);
+  }
+  
+
 }

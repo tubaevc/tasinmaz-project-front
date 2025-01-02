@@ -11,7 +11,7 @@
   </head>
   <body>
     <div class="container">
-      <button class="close-btn">
+      <button class="close-btn" (click)="onClose()">
         <i class="fas fa-times"></i>
       </button>
       <div class="header">
@@ -28,42 +28,79 @@
           </button>
         </div>
       </div>
-      <div class="form-container">
-        <div class="left-column">
-          <div class="input-group">
-            <i class="fas fa-info-circle info-icon"></i>
-            <input type="text" placeholder="İl" />
-          </div>
-          <div class="input-group">
-            <i class="fas fa-info-circle info-icon"></i>
-            <input type="text" placeholder="İlçe" />
-          </div>
-          <div class="input-group">
-            <i class="fas fa-info-circle info-icon"></i>
-            <input type="text" placeholder="Mahalle" />
-          </div>
-          <div class="input-group">
-            <i class="fas fa-info-circle info-icon"></i>
-            <input type="text" placeholder="Ada" />
-          </div>
-          <div class="input-group">
-            <i class="fas fa-info-circle info-icon"></i>
-            <input type="text" placeholder="Parsel" />
-          </div>
-          <div class="input-group">
-            <i class="fas fa-info-circle info-icon"></i>
-            <input type="text" placeholder="Nitelik" />
-          </div>
+      <form [formGroup]="tasinmazForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="il">İl</label>
+          <select id="il" formControlName="ilId" (change)="onIlChange($event)">
+            <option *ngFor="let il of iller" [value]="il.id">
+              {{ il.ilAdi }}
+            </option>
+          </select>
         </div>
 
-        <div class="right-column">
-          <div class="input-group">
-            <i class="fas fa-info-circle info-icon"></i>
-            <textarea placeholder="Adres"></textarea>
-          </div>
-          <button class="submit-btn">Ekle</button>
+        <div class="form-group">
+          <label for="ilce">İlçe</label>
+          <select
+            id="ilce"
+            formControlName="ilceId"
+            (change)="onIlceChange($event)"
+          >
+            <option *ngFor="let ilce of ilceler" [value]="ilce.id">
+              {{ ilce.ilceAdi }}
+            </option>
+          </select>
         </div>
-      </div>
+
+        <div class="form-group">
+          <label for="mahalle">Mahalle</label>
+          <select
+            id="mahalle"
+            formControlName="mahalleId"
+            (change)="onMahalleChange($event)"
+          >
+            <option *ngFor="let mahalle of mahalleler" [value]="mahalle.id">
+              {{ mahalle.mahalleAdi }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="ada">Ada</label>
+          <input id="ada" type="text" formControlName="ada" placeholder="Ada" />
+        </div>
+
+        <div class="form-group">
+          <label for="parsel">Parsel</label>
+          <input
+            id="parsel"
+            type="text"
+            formControlName="parsel"
+            placeholder="Parsel"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="koordinat">Koordinat</label>
+          <input
+            id="koordinat"
+            type="text"
+            formControlName="koordinat"
+            placeholder="Koordinat"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="adres">Adres</label>
+          <input
+            id="adres"
+            type="text"
+            formControlName="adres"
+            placeholder="Adres"
+          />
+        </div>
+
+        <button type="submit">Gönder</button>
+      </form>
     </div>
   </body>
 </html>
