@@ -1,0 +1,147 @@
+body {
+  margin: 0;
+  height: 98vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(45deg, #1a2f3f, #042653);
+  background-size: cover;
+  position: relative;
+  color: white;
+}
+.container {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  width: 80%;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 130px;
+  background: transparent;
+}
+
+.close-btn {
+  background: rgba(255, 255, 255, 0.1);
+  position: absolute;
+  color: white;
+  transition: all 0.3s ease;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+  top: 40px;
+  left: 40px;
+  border: none;
+}
+
+.search-container {
+  display: flex;
+  padding: 20px;
+  width: 65%;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+.search-input::placeholder {
+  color: #333;
+}
+
+.search-btn {
+  padding: 8px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 10px;
+}
+.table {
+  justify-content: center;
+  display: flex;
+}
+table {
+  width: 80%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th,
+td {
+  padding: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+th {
+  background: rgba(255, 255, 255, 0.1);
+  font-weight: 500;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  gap: 5px;
+}
+
+.pagination button {
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.control-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: #f0f0f0;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.menu-btn {
+  padding: 8px 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.menu-btns {
+  gap: 10px;
+  display: flex;
+}

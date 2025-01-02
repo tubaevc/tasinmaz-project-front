@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <button class="close-btn">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="header">
+        <h2>Mevcut Taşınmazlar Listesi</h2>
+        <div class="menu-btns">
+          <button class="menu-btn">
+            <i class="fas fa-history"></i> Log İşlemleri
+          </button>
+          <button class="menu-btn">
+            <i class="fas fa-users"></i> Kullanıcı İşlemleri
+          </button>
+          <button class="menu-btn">
+            <i class="fas fa-building"></i> Mevcut Taşınmazlar Listesi
+          </button>
+        </div>
+      </div>
+      <div class="search-bar">
+        <div class="search-container">
+          <input type="text" class="search-input" placeholder="Ara..." />
+          <button class="search-btn"><i class="fas fa-search"></i> Ara</button>
+        </div>
+      </div>
+
+      <div class="table">
+        <table border="1">
+          <thead>
+            <tr>
+              <!-- <th>Id</th> -->
+              <th>İl</th>
+              <th>İlçe</th>
+              <th>Mahalle</th>
+              <th>Ada</th>
+              <th>Parsel</th>
+              <th>Nitelik</th>
+              <th>Adres</th>
+              <th>Koordinat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tasinmaz of tasinmazlar">
+              <!-- <td>{{ tasinmaz.id }}</td> -->
+              <td>{{ tasinmaz.mahalle.ilce.il.ilAdi }}</td>
+              <td>{{ tasinmaz.mahalle.ilce.ilceAdi }}</td>
+              <td>{{ tasinmaz.mahalle.mahalleAdi }}</td>
+              <td>{{ tasinmaz.ada }}</td>
+              <td>{{ tasinmaz.parsel }}</td>
+              <td>{{ tasinmaz.nitelik }}</td>
+              <td>{{ tasinmaz.adres }}</td>
+              <td>{{ tasinmaz.koordinat }}</td>
+            </tr>
+            <!-- <tr>
+              <td>Ankara</td>
+              <td>Çankaya</td>
+              <td>Kızılay</td>
+              <td>205</td>
+              <td>12</td>
+              <td>İşyeri</td>
+              <td>Atatürk Blv. No:456</td>
+            </tr>
+            <tr>
+              <td>Ankara</td>
+              <td>Çankaya</td>
+              <td>Kızılay</td>
+              <td>205</td>
+              <td>12</td>
+              <td>İşyeri</td>
+              <td>Atatürk Blv. No:456</td>
+            </tr>
+            <tr>
+              <td>Ankara</td>
+              <td>Çankaya</td>
+              <td>Kızılay</td>
+              <td>205</td>
+              <td>12</td>
+              <td>İşyeri</td>
+              <td>Atatürk Blv. No:456</td>
+            </tr>
+            <tr>
+              <td>Ankara</td>
+              <td>Çankaya</td>
+              <td>Kızılay</td>
+              <td>205</td>
+              <td>12</td>
+              <td>İşyeri</td>
+              <td>Atatürk Blv. No:456</td>
+            </tr>
+            <tr>
+              <td>Ankara</td>
+              <td>Çankaya</td>
+              <td>Kızılay</td>
+              <td>205</td>
+              <td>12</td>
+              <td>İşyeri</td>
+              <td>Atatürk Blv. No:456</td>
+            </tr>
+            <tr>
+              <td>Ankara</td>
+              <td>Çankaya</td>
+              <td>Kızılay</td>
+              <td>205</td>
+              <td>12</td>
+              <td>İşyeri</td>
+              <td>Atatürk Blv. No:456</td>
+            </tr> -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <button><i class="fas fa-chevron-left"></i></button>
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+        <button>4</button>
+        <button>5</button>
+        <button>6</button>
+        <button>...</button>
+        <button><i class="fas fa-chevron-right"></i></button>
+      </div>
+
+      <div class="controls">
+        <button class="control-btn">
+          <i class="fas fa-plus"></i>
+        </button>
+        <button class="control-btn">
+          <i class="fas fa-sync-alt"></i>
+        </button>
+        <button class="control-btn">
+          <i class="fas fa-trash"></i>
+        </button>
+        <button class="control-btn">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
