@@ -11,9 +11,6 @@
   </head>
   <body>
     <div class="container">
-      <button class="close-btn">
-        <i class="fas fa-times"></i>
-      </button>
       <div class="header">
         <h2>Mevcut Taşınmazlar Listesi</h2>
         <div class="menu-btns">
@@ -50,7 +47,6 @@
               <th>Mahalle</th>
               <th>Ada</th>
               <th>Parsel</th>
-              <th>Sil</th>
             </tr>
           </thead>
           <tbody>
@@ -67,28 +63,25 @@
               <td>{{ tasinmaz.mahalle.mahalleAdi }}</td>
               <td>{{ tasinmaz.ada }}</td>
               <td>{{ tasinmaz.parsel }}</td>
-              <td>
-                <button (click)="deleteTasinmaz(tasinmaz.id)">Sil</button>
-              </td>
             </tr>
           </tbody>
         </table>
-
         <div class="controls">
           <button class="control-btn" [routerLink]="['/add-tasinmaz']">
             <i class="fas fa-plus"></i>
           </button>
-          <button class="control-btn">
+          <button class="control-btn" (click)="onEditTasinmaz(tasinmaz.id)">
             <i class="fas fa-sync-alt"></i>
           </button>
           <button class="control-btn" (click)="deleteSelected()">
             <i class="fas fa-trash"></i>
           </button>
           <button class="control-btn">
-            <i class="fas fa-bars"></i>
+            <i class="fas fa-file"></i>
           </button>
         </div>
-        <div class="pagination">
+        <!-- map-paginator -->
+        <!-- <div class="pagination">
           <button><i class="fas fa-chevron-left"></i></button>
           <button>1</button>
           <button>2</button>
@@ -98,7 +91,7 @@
           <button>6</button>
           <button>...</button>
           <button><i class="fas fa-chevron-right"></i></button>
-        </div>
+        </div> -->
       </div>
     </div>
   </body>

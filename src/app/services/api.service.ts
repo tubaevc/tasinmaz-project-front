@@ -36,5 +36,13 @@ export class ApiService {
     return this.http.post(`${this.baseUrl}/Tasinmaz/multi-delete`, ids);
   }
   
-
+  //guncelleme icin get metodu
+  getTasinmazById(id: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/Tasinmaz/${id}`);
+  }
+  //guncelleme icin put metodu
+  // updateTasinmaz(tasinmaz: any): Observable<any> {
+  //   return this.http.put(`${this.baseUrl}/Tasinmaz/${tasinmaz.id}`, tasinmaz);
+  // }
+ 
 }

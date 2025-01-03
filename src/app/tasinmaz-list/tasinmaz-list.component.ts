@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { Tasinmaz } from '../../models/tasinmaz-model';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'tasinmaz-list',
   templateUrl: './tasinmaz-list.component.html',
@@ -10,7 +10,8 @@ import { Tasinmaz } from '../../models/tasinmaz-model';
 export class TasinmazList implements OnInit {
   tasinmazlar: (Tasinmaz & { selected: boolean })[] = [];  allSelected: boolean = false;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService,private router:Router) {}
+
 
   ngOnInit(): void {
     this.apiService.getAllTasinmaz().subscribe({
@@ -26,6 +27,12 @@ export class TasinmazList implements OnInit {
       },
     });
   }
+
+  onEditTasinmaz(tasinmazId: number): void {
+    console.log('Güncelleme için yönlendirilen Taşınmaz ID:', tasinmazId);
+    this.router.navigate(['/update-tasinmaz', tasinmazId]);
+  }
+  
   deleteSelected(): void {
     const selectedIds = this.tasinmazlar
       .filter(t => t.selected)

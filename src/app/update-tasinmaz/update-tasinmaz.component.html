@@ -3,16 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Yeni Tasinmaz</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
+    <title>Update Tasinmaz</title>
   </head>
   <body>
     <div class="container">
       <div class="header">
-        <h2>Yeni Taşınmaz Ekle</h2>
+        <h2>Taşınmaz Güncelle</h2>
         <div class="menu-btns">
           <button class="menu-btn">
             <i class="fas fa-history"></i> Log İşlemleri
@@ -27,7 +23,7 @@
       </div>
       <form [formGroup]="tasinmazForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-          <label for="il">İl</label>
+          <label for="il">İl:</label>
           <select id="il" formControlName="ilId" (change)="onIlChange($event)">
             <option *ngFor="let il of iller" [value]="il.id">
               {{ il.ilAdi }}
@@ -36,7 +32,7 @@
         </div>
 
         <div class="form-group">
-          <label for="ilce">İlçe</label>
+          <label for="ilce">İlçe:</label>
           <select
             id="ilce"
             formControlName="ilceId"
@@ -49,12 +45,8 @@
         </div>
 
         <div class="form-group">
-          <label for="mahalle">Mahalle</label>
-          <select
-            id="mahalle"
-            formControlName="mahalleId"
-            (change)="onMahalleChange($event)"
-          >
+          <label for="mahalle">Mahalle:</label>
+          <select id="mahalle" formControlName="mahalleId">
             <option *ngFor="let mahalle of mahalleler" [value]="mahalle.id">
               {{ mahalle.mahalleAdi }}
             </option>
@@ -62,12 +54,12 @@
         </div>
 
         <div class="form-group">
-          <label for="ada">Ada</label>
+          <label for="ada">Ada:</label>
           <input id="ada" type="text" formControlName="ada" placeholder="Ada" />
         </div>
 
         <div class="form-group">
-          <label for="parsel">Parsel</label>
+          <label for="parsel">Parsel:</label>
           <input
             id="parsel"
             type="text"
@@ -77,7 +69,7 @@
         </div>
 
         <div class="form-group">
-          <label for="koordinat">Koordinat</label>
+          <label for="koordinat">Koordinat:</label>
           <input
             id="koordinat"
             type="text"
@@ -87,7 +79,7 @@
         </div>
 
         <div class="form-group">
-          <label for="adres">Adres</label>
+          <label for="adres">Adres:</label>
           <input
             id="adres"
             type="text"

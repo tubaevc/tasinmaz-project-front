@@ -7,12 +7,14 @@ import { TasinmazList } from 'src/app/tasinmaz-list/tasinmaz-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AddTasinmazComponent } from './add-tasinmaz/add-tasinmaz.component';
 import { ReactiveFormsModule,FormsModule } from '@angular/forms';
+import { UpdateTasinmazComponent } from './update-tasinmaz/update-tasinmaz.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TasinmazList,
-    AddTasinmazComponent
+    AddTasinmazComponent,
+    UpdateTasinmazComponent
   ],
   imports: [
     BrowserModule,
