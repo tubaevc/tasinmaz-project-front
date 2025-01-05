@@ -41,8 +41,8 @@ export class ApiService {
     return this.http.get(`${this.baseUrl}/Tasinmaz/${id}`);
   }
   //guncelleme icin put metodu
-  // updateTasinmaz(tasinmaz: any): Observable<any> {
-  //   return this.http.put(`${this.baseUrl}/Tasinmaz/${tasinmaz.id}`, tasinmaz);
-  // }
+  updateTasinmaz(tasinmaz: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/Tasinmaz/${tasinmaz.id}`, tasinmaz);
+  }
  
 }

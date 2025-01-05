@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class TasinmazList implements OnInit {
   tasinmazlar: (Tasinmaz & { selected: boolean })[] = [];  allSelected: boolean = false;
-
+  
   constructor(private apiService: ApiService,private router:Router) {}
 
 
@@ -20,7 +20,7 @@ export class TasinmazList implements OnInit {
           ...item,
           selected: false
         }));
-        console.log(this.tasinmazlar);
+      //  console.log(this.tasinmazlar);
       },
       error: (error) => {
         console.error('Veri çekme hatası:', error);
@@ -28,11 +28,7 @@ export class TasinmazList implements OnInit {
     });
   }
 
-  onEditTasinmaz(tasinmazId: number): void {
-    console.log('Güncelleme için yönlendirilen Taşınmaz ID:', tasinmazId);
-    this.router.navigate(['/update-tasinmaz', tasinmazId]);
-  }
-  
+
   deleteSelected(): void {
     const selectedIds = this.tasinmazlar
       .filter(t => t.selected)
@@ -54,7 +50,21 @@ export class TasinmazList implements OnInit {
       });
     }
   }
+  anySelected(): boolean {
+    return this.tasinmazlar.some(t => t.selected);
+  }
   
+  onEditSelected(): void {
+    const selectedTasinmaz = this.tasinmazlar.find(t => t.selected);
+  
+    if (!selectedTasinmaz) {
+      alert('Güncellenecek taşınmaz seçilmedi!');
+      return;
+    }
+  
+    console.log('Güncellenecek Taşınmaz ID:', selectedTasinmaz.id);
+    this.router.navigate([`/update-tasinmaz/${selectedTasinmaz.id}`]);
+  }
   toggleSelectAll(event: Event): void {
     const checked = (event.target as HTMLInputElement).checked;
     this.tasinmazlar.forEach(t => (t.selected = checked));
