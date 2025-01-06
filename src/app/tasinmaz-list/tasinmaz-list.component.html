@@ -24,6 +24,21 @@
             <i class="fas fa-building"></i> Mevcut Taşınmazlar Listesi
           </button>
         </div>
+
+        <button
+          class="menu-btn"
+          *ngIf="isLoggedIn() == false"
+          routerLink="/login"
+        >
+          <i class="fas fa-sign-out-alt"></i> Giriş Yap
+        </button>
+        <button
+          class="menu-btn"
+          *ngIf="isLoggedIn() == true"
+          (click)="logOut()"
+        >
+          <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+        </button>
       </div>
       <div class="search-bar">
         <div class="search-container">
