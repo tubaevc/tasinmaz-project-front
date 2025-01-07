@@ -3,6 +3,7 @@ import { ApiService } from "../services/api.service";
 import { Tasinmaz } from "../../models/tasinmaz-model";
 import { Router } from "@angular/router";
 import { AccountService } from "../services/account.service";
+import { AuthService } from "../services/auth.service";
 @Component({
   selector: "tasinmaz-list",
   templateUrl: "./tasinmaz-list.component.html",
@@ -15,13 +16,13 @@ export class TasinmazList implements OnInit {
   constructor(
     private apiService: ApiService,
     private router: Router,
-    private accountService: AccountService
+    private authService: AuthService
   ) {}
   isLoggedIn() {
-    return this.accountService.isLoggedIn();
+    return this.authService.loggedIn();
   }
   logOut() {
-    this.accountService.logOut();
+    this.authService.logOut();
     this.router.navigate(["login"]);
   }
 

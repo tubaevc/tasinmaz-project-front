@@ -11,6 +11,7 @@ import { UpdateTasinmazComponent } from "./update-tasinmaz/update-tasinmaz.compo
 import { LoginComponent } from "./login/login.component";
 import { AccountService } from "./services/account.service";
 import { LoginGuard } from "./login/login.guard";
+import { UserComponent } from "./user/user.component";
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { LoginGuard } from "./login/login.guard";
     AddTasinmazComponent,
     UpdateTasinmazComponent,
     LoginComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,

@@ -13,14 +13,14 @@
     <div class="container">
       <div class="header">
         <h2>Mevcut Taşınmazlar Listesi</h2>
-        <div class="menu-btns">
+        <div *ngIf="authService.isAdmin()" class="menu-btns">
           <button class="menu-btn">
             <i class="fas fa-history"></i> Log İşlemleri
           </button>
-          <button class="menu-btn">
+          <button class="menu-btn" routerLink="/users">
             <i class="fas fa-users"></i> Kullanıcı İşlemleri
           </button>
-          <button class="menu-btn">
+          <button class="menu-btn" routerLink="/tasinmaz">
             <i class="fas fa-building"></i> Mevcut Taşınmazlar Listesi
           </button>
         </div>
@@ -63,6 +63,7 @@
               <th>Ada</th>
               <th>Parsel</th>
               <th>Koordinat</th>
+              <th>Adres</th>
             </tr>
           </thead>
           <tbody>
@@ -80,6 +81,7 @@
               <td>{{ tasinmaz.ada }}</td>
               <td>{{ tasinmaz.parsel }}</td>
               <td>{{ tasinmaz.koordinat }}</td>
+              <td>{{ tasinmaz.adres }}</td>
             </tr>
           </tbody>
         </table>

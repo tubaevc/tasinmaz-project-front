@@ -1,0 +1,89 @@
+<div class="user-container">
+  <h2>User Management</h2>
+
+  <div>
+    <button class="btn btn-primary" (click)="openPopup('add')">Add User</button>
+    <button
+      class="btn btn-warning"
+      [disabled]="!selectedUserId"
+      (click)="openPopup('edit')"
+    >
+      Edit Selected
+    </button>
+    <button
+      class="btn btn-danger"
+      [disabled]="!selectedUserId"
+      (click)="deleteUser(selectedUserId!)"
+    >
+      Delete Selected
+    </button>
+  </div>
+
+  <table class="table" *ngIf="users && users.length > 0">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Email</th>
+        <th>Role</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>
+          <input
+            type="radio"
+            name="selectedUser"
+            (change)="onSelectUser(user)"
+          />
+        </td>
+        <td>{{ user.userEmail }}</td>
+        <td>{{ user.role }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div id="popup" class="popup" style="display: none">
+    <div class="popup-content">
+      <h3>{{ action === "add" ? "Add User" : "Edit User" }}</h3>
+      <form [formGroup]="addUserForm" (ngSubmit)="saveUser()">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-control"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            class="form-control"
+          />
+        </div>
+        <div class="form-group">
+          <label for="role">Role</label>
+          <select id="role" formControlName="role" class="form-control">
+            <option value="User">User</option>
+            <option value="Admin">Admin</option>
+          </select>
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="addUserForm.invalid"
+        >
+          Save
+        </button>
+
+        <button type="button" class="btn btn-secondary" (click)="closePopup()">
+          Cancel
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
