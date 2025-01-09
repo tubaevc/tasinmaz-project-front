@@ -12,6 +12,7 @@ import { LoginComponent } from "./login/login.component";
 import { AccountService } from "./services/account.service";
 import { LoginGuard } from "./login/login.guard";
 import { UserComponent } from "./user/user.component";
+import { ExcelexportService } from "./services/excelexport.service";
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { UserComponent } from "./user/user.component";
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [AccountService, LoginGuard],
+  providers: [AccountService, LoginGuard, ExcelexportService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

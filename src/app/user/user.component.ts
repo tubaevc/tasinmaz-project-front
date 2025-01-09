@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { UserService } from "../services/user.service";
+import { AuthService } from "../services/auth.service";
 
 @Component({
   selector: "app-user",
@@ -13,7 +14,11 @@ export class UserComponent implements OnInit {
   action: string = "";
   addUserForm: FormGroup;
 
-  constructor(private userService: UserService, private fb: FormBuilder) {
+  constructor(
+    private userService: UserService,
+    private fb: FormBuilder,
+    private authService: AuthService
+  ) {
     this.addUserForm = this.fb.group({
       email: ["", [Validators.required, Validators.email]],
       password: [

@@ -13,7 +13,7 @@
     <div class="container">
       <div class="header">
         <h2>Yeni Taşınmaz Ekle</h2>
-        <div class="menu-btns">
+        <div *ngIf="authService.isAdmin()" class="menu-btns">
           <button class="menu-btn">
             <i class="fas fa-history"></i> Log İşlemleri
           </button>
@@ -83,6 +83,15 @@
             type="text"
             formControlName="koordinat"
             placeholder="Koordinat"
+          />
+        </div>
+        <div class="form-group">
+          <label for="adres">Ntelik:</label>
+          <input
+            id="nitelik"
+            type="text"
+            formControlName="nitelik"
+            placeholder="Nitelik"
           />
         </div>
 

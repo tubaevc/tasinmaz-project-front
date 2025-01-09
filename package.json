@@ -22,8 +22,10 @@
     "@auth0/angular-jwt": "^2.1.0",
     "alertifyjs": "^1.14.0",
     "core-js": "^2.5.4",
+    "file-saver": "^2.0.5",
     "rxjs": "~6.3.3",
-    "tslib": "^1.9.0",
+    "tslib": "^2.8.1",
+    "xlsx": "^0.18.5",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {

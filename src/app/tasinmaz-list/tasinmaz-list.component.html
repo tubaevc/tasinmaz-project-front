@@ -42,50 +42,65 @@
       </div>
       <div class="search-bar">
         <div class="search-container">
-          <input type="text" class="search-input" placeholder="Ara..." />
-          <button class="search-btn"><i class="fas fa-search"></i> Ara</button>
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Ara..."
+            [(ngModel)]="searchTerm"
+          />
+          <button (click)="applyFilter()" class="search-btn">
+            <i class="fas fa-search"></i> Ara
+          </button>
+          <button class="clear-btn" (click)="clearFilter()">
+            <i class="fas fa-times"></i> Temizle
+          </button>
         </div>
       </div>
       <div class="table-container">
         <table border="1">
           <thead>
             <tr>
-              <th>
+              <th *ngIf="!authService.isAdmin()">
                 <input
                   type="checkbox"
                   [checked]="allSelected"
                   (change)="toggleSelectAll($event)"
                 />
               </th>
+              <th>user id</th>
               <th>İl</th>
               <th>İlçe</th>
               <th>Mahalle</th>
               <th>Ada</th>
               <th>Parsel</th>
               <th>Koordinat</th>
+              <th>Nitelik</th>
               <th>Adres</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let tasinmaz of tasinmazlar">
-              <td>
+            <tr *ngFor="let tasinmaz of filteredTasinmazlar">
+              <td *ngIf="!authService.isAdmin()">
                 <input
                   type="checkbox"
                   [(ngModel)]="tasinmaz.selected"
                   (change)="onSelectionChange()"
                 />
               </td>
-              <td>{{ tasinmaz.mahalle.ilce.il.ilAdi }}</td>
-              <td>{{ tasinmaz.mahalle.ilce.ilceAdi }}</td>
-              <td>{{ tasinmaz.mahalle.mahalleAdi }}</td>
+              <td>{{ tasinmaz.userId }}</td>
+              <td>{{ tasinmaz.mahalle?.ilce?.il?.ilAdi || "Veri Yok" }}</td>
+              <td>{{ tasinmaz.mahalle?.ilce?.ilceAdi || "Veri Yok" }}</td>
+              <td>{{ tasinmaz.mahalle?.mahalleAdi || "Veri Yok" }}</td>
+
               <td>{{ tasinmaz.ada }}</td>
               <td>{{ tasinmaz.parsel }}</td>
               <td>{{ tasinmaz.koordinat }}</td>
+              <td>{{ tasinmaz.nitelik }}</td>
               <td>{{ tasinmaz.adres }}</td>
             </tr>
           </tbody>
         </table>
-        <div class="controls">
+        <div *ngIf="!authService.isAdmin()" class="controls">
           <button class="control-btn" [routerLink]="['/add-tasinmaz']">
             <i class="fas fa-plus"></i>
           </button>
@@ -100,7 +115,7 @@
           <button class="control-btn" (click)="deleteSelected()">
             <i class="fas fa-trash"></i>
           </button>
-          <button class="control-btn">
+          <button class="control-btn" (click)="exportToExcel()">
             <i class="fas fa-file"></i>
           </button>
         </div>

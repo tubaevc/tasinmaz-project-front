@@ -6,6 +6,7 @@ import { UpdateTasinmazComponent } from "./update-tasinmaz/update-tasinmaz.compo
 import { LoginComponent } from "./login/login.component";
 import { LoginGuard } from "./login/login.guard";
 import { UserComponent } from "./user/user.component";
+import { AdminGuard } from "./login/admin.guard";
 const routes: Routes = [
   { path: "tasinmaz", component: TasinmazList, canActivate: [LoginGuard] },
   {
@@ -20,7 +21,11 @@ const routes: Routes = [
   },
   { path: "", redirectTo: "tasinmaz", pathMatch: "full" },
   { path: "login", component: LoginComponent },
-  { path: "users", component: UserComponent, canActivate: [LoginGuard] },
+  {
+    path: "users",
+    component: UserComponent,
+    canActivate: [LoginGuard, AdminGuard],
+  },
 ];
 
 @NgModule({
