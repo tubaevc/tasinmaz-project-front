@@ -75,18 +75,8 @@
             placeholder="Parsel"
           />
         </div>
-
         <div class="form-group">
-          <label for="koordinat">Koordinat</label>
-          <input
-            id="koordinat"
-            type="text"
-            formControlName="koordinat"
-            placeholder="Koordinat"
-          />
-        </div>
-        <div class="form-group">
-          <label for="adres">Ntelik:</label>
+          <label for="adres">Nitelik:</label>
           <input
             id="nitelik"
             type="text"
@@ -103,6 +93,68 @@
             formControlName="adres"
             placeholder="Adres"
           />
+        </div>
+        <div class="form-group">
+          <label for="koordinat">Koordinat</label>
+          <input
+            id="koordinat"
+            type="text"
+            formControlName="koordinat"
+            placeholder="Koordinat"
+            readonly
+          />
+        </div>
+        <div class="form-group map">
+          <label for="koordinat">Harita</label>
+          <div class="map-btns">
+            <div class="controls">
+              <h3>Katman Kontrolleri</h3>
+
+              <!-- OpenStreetMap Katmanı -->
+              <div class="layer-control">
+                <input
+                  type="checkbox"
+                  class="layer-checkbox"
+                  checked
+                  (change)="toggleOsmLayer($event)"
+                  id="osm-layer"
+                />
+                <label for="osm-layer" class="layer-name">OpenStreetMap</label>
+                <div class="opacity-control">
+                  <input
+                    type="range"
+                    class="opacity-slider"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    (input)="setOsmOpacity($event.target.value)"
+                  />
+                </div>
+              </div>
+
+              <!-- Google Maps Katmanı -->
+              <div class="layer-control">
+                <input
+                  type="checkbox"
+                  class="layer-checkbox"
+                  (change)="toggleGoogleLayer($event)"
+                  id="google-layer"
+                />
+                <label for="google-layer" class="layer-name">Google Maps</label>
+                <div class="opacity-control">
+                  <input
+                    type="range"
+                    class="opacity-slider"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    (input)="setGoogleOpacity($event.target.value)"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="map" style="width: 100%; height: 400px"></div>
         </div>
 
         <button type="submit">Ekle</button>

@@ -79,3 +79,117 @@ form button {
   margin-right: 250px;
   border-radius: 10px;
 }
+#map {
+  width: 100%;
+  height: 400px;
+  position: relative;
+}
+
+/* Scale line kontrolü için stiller */
+.ol-scale-line {
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 4px;
+  bottom: 8px;
+  right: 8px;
+  padding: 2px;
+  position: absolute;
+}
+
+.ol-scale-line-inner {
+  border: 1px solid #eee;
+  border-top: none;
+  color: #eee;
+  font-size: 10px;
+  text-align: center;
+  margin: 1px;
+  padding: 0 2px;
+}
+.map {
+  display: flex;
+  flex-direction: column;
+}
+.for-open-street,
+.for-google-maps {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.map .controls {
+  display: flex;
+}
+.map .controls input {
+  width: 100px;
+}
+.layer-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 24px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+  background-color: #2196f3;
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(26px);
+}
+
+/* Opacity slider stili */
+.opacity-control {
+  margin: 5px 10px;
+}
+
+.opacity-slider {
+  width: 200px;
+  height: 5px;
+  border-radius: 5px;
+  -webkit-appearance: none;
+  background: #ddd;
+}
+
+.opacity-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #2196f3;
+  cursor: pointer;
+}

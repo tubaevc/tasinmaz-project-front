@@ -79,10 +79,16 @@
             type="text"
             formControlName="koordinat"
             placeholder="Koordinat"
+            readonly
           />
         </div>
         <div class="form-group">
-          <label for="adres">Ntelik:</label>
+          <label for="koordinat">Harita</label>
+          <div id="map" style="width: 100%; height: 400px"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="adres">Nitelik:</label>
           <input
             id="nitelik"
             type="text"

@@ -2,6 +2,11 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ApiService } from "../services/api.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import "ol/ol.css";
+import { Map, View } from "ol";
+import TileLayer from "ol/layer/Tile";
+import OSM from "ol/source/OSM";
+import { fromLonLat, toLonLat } from "ol/proj";
 @Component({
   selector: "app-update-tasinmaz",
   templateUrl: "./update-tasinmaz.component.html",
@@ -13,6 +18,7 @@ export class UpdateTasinmazComponent implements OnInit {
   ilceler: any[] = [];
   mahalleler: any[] = [];
   tasinmazId: number;
+  map: Map | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -61,6 +67,27 @@ export class UpdateTasinmazComponent implements OnInit {
         this.loadIller();
       },
       error: (err) => console.error("Taşınmaz yüklenemedi:", err),
+    });
+    this.map = new Map({
+      target: "map", // HTML element id
+      layers: [
+        new TileLayer({
+          source: new OSM(),
+        }),
+      ],
+      view: new View({
+        center: fromLonLat([32.8597, 39.9334]),
+        zoom: 6,
+      }),
+    });
+    this.map.on("click", (event) => {
+      const coordinates = toLonLat(event.coordinate); // Koordinatları LonLat formatına çevir
+      console.log("Tıklanan Koordinatlar:", coordinates);
+
+      // Koordinatları form alanına yerleştir
+      this.tasinmazForm.patchValue({
+        koordinat: `${coordinates[0].toFixed(6)}, ${coordinates[1].toFixed(6)}`, // 6 basamaklı hassasiyet
+      });
     });
   }
 
