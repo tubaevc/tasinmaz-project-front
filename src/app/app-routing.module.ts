@@ -7,8 +7,9 @@ import { LoginComponent } from "./login/login.component";
 import { LoginGuard } from "./login/login.guard";
 import { UserComponent } from "./user/user.component";
 import { AdminGuard } from "./login/admin.guard";
+import { LogComponent } from "./log/log.component";
 const routes: Routes = [
-  { path: "tasinmaz", component: TasinmazList, canActivate: [LoginGuard] },
+  { path: "tasinmaz", component: TasinmazList },
   {
     path: "add-tasinmaz",
     component: AddTasinmazComponent,
@@ -24,6 +25,11 @@ const routes: Routes = [
   {
     path: "users",
     component: UserComponent,
+    canActivate: [LoginGuard, AdminGuard],
+  },
+  {
+    path: "logs",
+    component: LogComponent,
     canActivate: [LoginGuard, AdminGuard],
   },
 ];

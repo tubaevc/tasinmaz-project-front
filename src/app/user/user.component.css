@@ -1,91 +1,140 @@
-body {
-  margin: 0;
-  height: auto;
+.navbar {
+  width: 100%;
+  background-color: #343a40;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  gap: 10px;
 }
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
+nav a {
+  font-size: 28px;
+}
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+.navbar-nav {
+  width: 100%;
+  justify-content: center;
+}
+.nav-item button {
+  background-color: white;
+  color: black !important;
+  margin-right: 5px;
+  font-size: 0.875rem;
+}
+.nav-item button:hover {
+  background-color: #f8f9fa;
+}
+.logout-btn {
+  background-color: white;
+  color: red;
+  border: none;
+  width: auto; /* Buton genişliğini yazıya göre ayarlamak için width: auto */
+  padding: 0.375rem 0.75rem; /* Butonun içinde yeterli boşluk bırakmak için padding */
+  display: inline-block; /* Butonun yazıya göre yayılmasını sağlar */
+}
+
+.logout-btn:hover {
+  background-color: #f8d7da;
+}
+
+/* Content area */
+.content {
+  margin-top: 80px; /* Push content below the navbar */
   padding: 20px;
 }
 
-.header {
+/* Main Heading and Search Bar */
+.header-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
-
-.header h2 {
-  margin: 0;
-  padding: 0;
+.header-container h2 {
+  font-size: 1.5rem;
+  margin-right: 20px;
 }
-.user-container {
+.header-container .search-bar {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  margin-top: 50px;
+}
+.header-container .form-control {
+  height: calc(2em + 0.75rem + 2px);
+  width: 200px;
+}
+.header-container .btn {
+  height: calc(2em + 0.75rem + 2px);
+  margin-left: 10px;
 }
 
-/* .table {
+/* Table Styles */
+.table-container {
   width: 100%;
-  border-collapse: collapse;
 }
 
-.table th,
-.table td {
-  border: 1px solid #ccc;
-  padding: 8px;
+/* Main Container */
+.container-fluid {
+  max-width: 1500px;
+}
+
+/* Make the buttons bigger */
+.btn {
+  font-size: 1rem;
+  padding: 0.6rem 1rem;
+}
+.navbar .navbar-header {
   text-align: left;
+  flex: 1;
 }
 
-.table th {
-  background-color: #f4f4f4;
-} */
+.navbar .menu-buttons {
+  display: flex;
+  gap: 10px; /* Aralarına mesafe koyar */
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.navbar .logout-btn {
+  background-color: white;
+  color: red;
+  border: none;
+  margin-left: auto; /* Çıkış butonunu sağa yaslamak için */
+}
+
+/* Table Styles */
 table {
   width: 100%;
+  margin-top: 20px;
   border-collapse: collapse;
-  margin-bottom: 20px;
-  background: rgba(0, 0, 0, 0.7);
-  border-radius: 10px;
 }
-
 th,
 td {
   padding: 12px;
-  text-align: left;
   border: 1px solid #ddd;
-  background: rgba(255, 255, 255, 0.664);
+  text-align: left;
 }
-
 th {
-  background: rgba(0, 0, 0, 0.151);
-  color: #fff;
+  background-color: #f2f2f2;
+}
+.table-success {
+  background-color: #d4edda;
+}
+.table-danger {
+  background-color: #f8d7da;
 }
 
-.btn {
-  padding: 5px 10px;
-  margin: 5px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+/* Controls section */
+.controls {
+  margin-top: 20px;
 }
-
-.btn-primary {
-  background-color: #007bff;
-  color: white;
-}
-
-.btn-warning {
-  background-color: #ffc107;
-  color: black;
-}
-
-.btn-danger {
-  background-color: #dc3545;
-  color: white;
-}
-
+/* Custom styles for the popup */
+/* Popup Background */
+/* Popup Background */
 .popup {
   position: fixed;
   top: 0;
@@ -94,57 +143,37 @@ th {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: none;
-  justify-content: center;
-  align-items: center;
+  z-index: 1040;
 }
 
+/* Popup Content */
 .popup-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: white;
-  padding: 20px;
-  border-radius: 5px;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 600px;
   width: 90%;
-  height: 70%;
-  margin: 50px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.4);
+  z-index: 1050;
 }
-.menu-btns {
-  display: flex;
-  gap: 10px;
-}
-
-.menu-btn {
-  padding: 8px 16px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  color: #fff;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  background: rgba(0, 0, 0, 0.8);
+@keyframes popupFade {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-.menu-btn i {
-  font-size: 14px;
+.popup.show {
+  display: block;
 }
-/* display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-} */
-
-/* label {
-  font-weight: bold;
-  margin-bottom: 5px;
-  width: 70px;
-  align-items: center;
-  display: flex;
+.header-container .btn {
+  color: white !important;
 }
-
-select,
-input[type="text"] {
-  width: 50%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-} */

@@ -1,147 +1,160 @@
-body {
-  margin: 0;
-  height: auto;
+.navbar {
+  width: 100%;
+  background-color: #343a40;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  gap: 10px;
 }
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
+nav a {
+  font-size: 28px;
+}
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+.navbar-nav {
+  width: 100%;
+  justify-content: center;
+}
+.nav-item button {
+  background-color: white;
+  color: black !important;
+  margin-right: 5px;
+  font-size: 0.875rem;
+}
+.nav-item button:hover {
+  background-color: #f8f9fa;
+}
+.logout-btn {
+  background-color: white;
+  color: rgb(36, 17, 17);
+  border: none;
+  width: auto;
+  padding: 0.375rem 0.75rem;
+  display: inline-block;
+}
+
+.logout-btn:hover {
+  background-color: #f8d7da;
+}
+
+.content {
+  margin-top: 80px;
   padding: 20px;
 }
 
-.header {
+.header-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
-
-.header h2 {
-  margin: 0;
-  padding: 0;
+.header-container .controls {
+  margin-top: 50px;
 }
-
-.menu-btns {
-  display: flex;
-  gap: 10px;
+.header-container h2 {
+  font-size: 1.5rem;
+  margin-right: 20px;
+  margin-top: 50px;
 }
-
-.menu-btn {
-  padding: 8px 16px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  color: #fff;
-  cursor: pointer;
+.header-container .search-bar {
   display: flex;
   align-items: center;
-  gap: 5px;
-  background: rgba(0, 0, 0, 0.8);
+  margin-top: 50px;
 }
-
-.menu-btn i {
-  font-size: 14px;
+.header-container .form-control {
+  height: calc(2em + 0.75rem + 2px);
+  width: 200px;
 }
-
-.search-bar {
-  margin-bottom: 20px;
-  justify-content: center;
-  display: flex;
-}
-
-.search-container {
-  display: flex;
-  gap: 10px;
-  width: 50%;
-}
-
-.search-input {
-  flex: 1;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.search-btn {
-  padding: 8px 16px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #fff;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+.header-container .btn {
+  height: calc(2em + 0.75rem + 2px);
+  margin-left: 10px;
 }
 
 .table-container {
   width: 100%;
-  overflow-x: auto;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-  background: rgba(0, 0, 0, 0.7);
-  border-radius: 10px;
+.container-fluid {
+  max-width: 1500px;
 }
 
-th,
-td {
-  padding: 12px;
+.btn {
+  font-size: 1rem;
+  padding: 0.6rem 1rem;
+}
+.navbar .navbar-header {
   text-align: left;
-  border: 1px solid #ddd;
-  background: rgba(255, 255, 255, 0.664);
+  flex: 1;
 }
 
-th {
-  background: rgba(0, 0, 0, 0.151);
-  color: #fff;
-}
-
-.controls {
+.navbar .menu-buttons {
   display: flex;
-  justify-content: flex-end;
   gap: 10px;
+  justify-content: center;
+  margin-right: 10px;
 }
 
-.control-btn {
-  padding: 8px;
-  border: 1px solid #ddd;
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  background: #f0f0f0;
-  border-radius: 50%;
+.navbar .logout-btn {
+  background-color: white;
+  color: rgb(32, 26, 26);
+  border: none;
+  margin-left: auto;
+}
+.ol-scale-line {
+  bottom: 10px;
+  right: 10px;
+}
+.error-message {
+  color: rgb(34, 27, 27);
+  font-weight: bold;
+  margin-top: 10px;
+}
+.header-container button {
+  color: white;
+  background-color: rgb(32, 31, 31);
+  border: none;
 }
 
-.control-btn i {
-  font-size: 14px;
-}
-.controls {
+.search-bar button {
   display: flex;
   justify-content: center;
-  gap: 20px;
-}
-.control-btn:nth-child(1) {
-  background-color: #4caf50;
+  align-items: center;
+  gap: 10px;
   color: white;
 }
-
-.control-btn:nth-child(2) {
-  background-color: #2196f3;
-  color: white;
+.search-bar input.form-control,
+.search-bar button {
+  height: calc(2.25rem + 2px);
+  line-height: 1.5;
 }
 
-.control-btn:nth-child(3) {
-  background-color: #f44336;
-  color: white;
+.search-bar button {
+  padding: 0.375rem 0.75rem;
 }
-
-.control-btn:nth-child(4) {
-  background-color: #ff9800;
+.page-link {
   color: white;
+  background-color: #343a40 !important;
+  color: #fff !important;
+  border: 1px solid;
+  border-color: #fff !important;
+  cursor: pointer;
+  font-size: 10px;
+  padding: 5px 8px;
+  margin: 0 2px;
 }
-
-.map {
-  margin-bottom: 20px;
+.modal-header .bg-black {
+  background-color: #3a4045d0;
+}
+.modal-header.bg-success {
+  background-color: #28a745;
+}
+.modal-header.bg-danger {
+  background-color: #dc3545;
+}
+.modal-header .btn-close {
+  color: white;
 }

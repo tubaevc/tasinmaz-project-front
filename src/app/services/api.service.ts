@@ -62,12 +62,20 @@ export class ApiService {
   }
 
   deleteMultipleTasinmaz(ids: number[]): Observable<any> {
-    return this.http.post(`${this.baseUrl}/Tasinmaz/multi-delete`, ids);
+    const token = localStorage.getItem("token");
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    });
+    return this.http.request("delete", `${this.baseUrl}/Tasinmaz/delete`, {
+      body: ids,
+      headers: headers,
+    });
   }
 
   //guncelleme icin get metodu
   getTasinmazById(id: number): Observable<any> {
-    const token = localStorage.getItem("token"); // veya token'ı sakladığınız yer
+    const token = localStorage.getItem("token");
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
@@ -79,7 +87,7 @@ export class ApiService {
   }
   //guncelleme icin put metodu
   updateTasinmaz(tasinmaz: any): Observable<any> {
-    const token = localStorage.getItem("token"); // veya token'ı aldığınız yer
+    const token = localStorage.getItem("token");
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",

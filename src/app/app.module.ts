@@ -13,6 +13,7 @@ import { AccountService } from "./services/account.service";
 import { LoginGuard } from "./login/login.guard";
 import { UserComponent } from "./user/user.component";
 import { ExcelexportService } from "./services/excelexport.service";
+import { LogComponent } from './log/log.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ExcelexportService } from "./services/excelexport.service";
     UpdateTasinmazComponent,
     LoginComponent,
     UserComponent,
+    LogComponent,
   ],
   imports: [
     BrowserModule,

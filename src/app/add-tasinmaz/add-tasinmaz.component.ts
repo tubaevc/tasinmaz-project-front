@@ -12,6 +12,12 @@ import XYZ from "ol/source/XYZ";
 import { fromLonLat, toLonLat } from "ol/proj";
 import ScaleLine from "ol/control/ScaleLine";
 import { defaults as defaultControls } from "ol/control";
+import { Vector as VectorLayer } from "ol/layer";
+import { Vector as VectorSource } from "ol/source";
+import Style from "ol/style/Style";
+import Icon from "ol/style/Icon";
+import Point from "ol/geom/Point";
+import Feature from "ol/Feature";
 @Component({
   selector: "app-add-tasinmaz",
   templateUrl: "./add-tasinmaz.component.html",
@@ -25,6 +31,13 @@ export class AddTasinmazComponent implements OnInit {
   map: Map | undefined;
   osmLayer: TileLayer<OSM>;
   googleLayer: TileLayer<XYZ>;
+  errorMessage: string = "";
+  showError: boolean = false;
+  showSuccess: boolean = false;
+  vectorSource: VectorSource;
+  markerLayer: VectorLayer;
+  osmOpacity: number = 1;
+  googleOpacity: number = 1;
 
   constructor(
     private fb: FormBuilder,
@@ -34,17 +47,28 @@ export class AddTasinmazComponent implements OnInit {
   ) {
     this.osmLayer = new TileLayer({
       source: new OSM(),
-      visible: true, // Başlangıçta açık
-      opacity: 1, // Opaklık: 1 (tamamen görünür)
+      visible: true,
+      opacity: 1,
     });
 
-    // Google Maps Katmanı (XYZ kaynağı ile)
     this.googleLayer = new TileLayer({
       source: new XYZ({
         url: "http://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}",
       }),
-      visible: false, // Başlangıçta kapalı
-      opacity: 1, // Opaklık: 1 (tamamen görünür)
+      visible: false,
+      opacity: 1,
+    });
+    this.vectorSource = new VectorSource();
+
+    this.markerLayer = new VectorLayer({
+      source: this.vectorSource,
+      style: new Style({
+        image: new Icon({
+          anchor: [0.5, 1],
+          src: "https://cdn-icons-png.flaticon.com/512/684/684908.png", // Marker icon URL
+          scale: 0.05,
+        }),
+      }),
     });
   }
 
@@ -52,34 +76,25 @@ export class AddTasinmazComponent implements OnInit {
     // console.log(this.authService.isAdmin());
     this.createForm();
     this.loadIller();
-    const scaleControl = new ScaleLine({
-      units: "metric",
-      bar: true,
-      steps: 4,
-      text: true,
-      minWidth: 100,
-      target: document.createElement("div"), // Özel bir hedef element oluştur
-    });
-    //map
+
+    // map
     this.map = new Map({
       target: "map",
-      layers: [
-        this.osmLayer, // OpenStreetMap layer
-        this.googleLayer, // Google Maps layer
-      ],
+      layers: [this.osmLayer, this.googleLayer, this.markerLayer],
       view: new View({
-        center: fromLonLat([32.8597, 39.9334]), // Türkiye'nin koordinatları
+        center: fromLonLat([32.8597, 39.9334]),
         zoom: 5,
       }),
-      controls: defaultControls().extend([scaleControl]), // Ölçek çizgisi kontrolünü ekle
+      controls: defaultControls().extend([new ScaleLine()]),
     });
     this.map.on("click", (event) => {
-      const coordinates = toLonLat(event.coordinate); // Koordinatları LonLat formatına çevir
+      const coordinates = toLonLat(event.coordinate);
       console.log("Tıklanan Koordinatlar:", coordinates);
+      this.addMarker(event.coordinate);
 
       // Koordinatları form alanına yerleştir
       this.tasinmazForm.patchValue({
-        koordinat: `${coordinates[0].toFixed(6)}, ${coordinates[1].toFixed(6)}`, // 6 basamaklı hassasiyet
+        koordinat: `${coordinates[0].toFixed(6)}, ${coordinates[1].toFixed(6)}`,
       });
     });
     this.map.once("postrender", () => {
@@ -142,18 +157,25 @@ export class AddTasinmazComponent implements OnInit {
         userId: userId,
       };
 
-      console.log("Gönderilen Veri:", tasinmazData);
-
       this.apiService.addTasinmaz(tasinmazData).subscribe({
         next: (response) => {
-          console.log("Taşınmaz başarıyla eklendi:", response),
-            alert("tasinmaz eklendi:");
-          this.router.navigate(["/tasinmaz"]);
+          this.showSuccess = true;
+          this.showError = false;
+          setTimeout(() => {
+            this.router.navigate(["/tasinmaz"]);
+          }, 3000);
+          // this.router.navigate(["/tasinmaz"]);
         },
-        error: (err) => console.error("Hata:", err),
+        error: (err) => {
+          this.showError = true;
+          this.errorMessage =
+            "Formu doldururken bir hata oluştu. Lütfen tekrar deneyin.";
+          console.error("Hata:", err);
+        },
       });
     } else {
-      console.error("Form geçersiz");
+      this.showError = true;
+      this.errorMessage = "Formda boş alanlar mevcut!";
     }
   }
   private getUserIdFromToken(): number {
@@ -170,7 +192,7 @@ export class AddTasinmazComponent implements OnInit {
         return 0;
       }
 
-      const payload = JSON.parse(atob(parts[1])); // Payload kısmını çözümle
+      const payload = JSON.parse(atob(parts[1]));
       console.log("Çözümlenen Payload:", payload);
       if (payload && payload.nameid) {
         return parseInt(payload.nameid, 10);
@@ -184,10 +206,8 @@ export class AddTasinmazComponent implements OnInit {
   toggleOsmLayer(event: any): void {
     const isChecked = event.target.checked;
     if (isChecked) {
-      // OpenStreetMap açılırken Google Maps'i kapat
       this.osmLayer.setVisible(true);
       this.googleLayer.setVisible(false);
-      // Google Maps checkbox'ını uncheck yap
       const googleCheckbox = document.getElementById(
         "google-layer"
       ) as HTMLInputElement;
@@ -202,10 +222,8 @@ export class AddTasinmazComponent implements OnInit {
   toggleGoogleLayer(event: any): void {
     const isChecked = event.target.checked;
     if (isChecked) {
-      // Google Maps açılırken OpenStreetMap'i kapat
       this.googleLayer.setVisible(true);
       this.osmLayer.setVisible(false);
-      // OpenStreetMap checkbox'ını uncheck yap
       const osmCheckbox = document.getElementById(
         "osm-layer"
       ) as HTMLInputElement;
@@ -226,5 +244,26 @@ export class AddTasinmazComponent implements OnInit {
     if (this.googleLayer) {
       this.googleLayer.setOpacity(parseFloat(opacity));
     }
+  }
+  cancel() {
+    this.router.navigate(["/"]);
+  }
+  private addMarker(coordinate: [number, number]): void {
+    this.vectorSource.clear();
+
+    const marker = new Feature({
+      geometry: new Point(coordinate),
+    });
+
+    this.vectorSource.addFeature(marker);
+  }
+  onOsmOpacityChange(event: any): void {
+    this.osmOpacity = parseFloat(event.target.value);
+    this.osmLayer.setOpacity(this.osmOpacity);
+  }
+
+  onGoogleOpacityChange(event: any): void {
+    this.googleOpacity = parseFloat(event.target.value);
+    this.googleLayer.setOpacity(this.googleOpacity);
   }
 }

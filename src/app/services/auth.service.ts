@@ -5,7 +5,9 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 import { Route, Router } from "@angular/router";
 import { HttpErrorResponse } from "@angular/common/http";
 import { environment } from "src/environments/environment";
-import { Observable } from "rxjs";
+import { Observable, throwError } from "rxjs";
+import { tap } from "rxjs/internal/operators/tap";
+import { catchError } from "rxjs/operators";
 @Injectable({
   providedIn: "root",
 })
@@ -18,26 +20,28 @@ export class AuthService {
   TOKEN_KEY = "token";
   private baseUrl: string = environment.apiUrl;
 
-  login(loginData: any): void {
-    const headers = new HttpHeaders().set("Content-Type", "application/json");
+  login(loginData: { userEmail: string; password: string }): void {
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
 
-    this.httpClient.post(this.path + "login", loginData, { headers }).subscribe(
-      (data: any) => {
-        // backend yaniti
-        console.log("Login successful:", data);
-
-        if (data.token) {
-          localStorage.setItem("token", data.token);
-        } else {
-          console.error("Token missing in response");
+    this.httpClient
+      .post("https://localhost:44316/api/Auth/login", loginData, { headers })
+      .subscribe(
+        (response: any) => {
+          console.log("Login successful:", response);
+          this.router.navigateByUrl("/");
+          if (response.token) {
+            localStorage.setItem("token", response.token);
+            console.log("Token stored in localStorage:", response.token);
+          } else {
+            console.error("Token missing in response");
+          }
+        },
+        (error) => {
+          console.error("Login failed:", error);
         }
-
-        this.router.navigateByUrl("/");
-      },
-      (error) => {
-        console.error("Login failed:", error);
-      }
-    );
+      );
   }
 
   saveToken(token: string) {

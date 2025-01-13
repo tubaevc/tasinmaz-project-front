@@ -8,71 +8,68 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
   </head>
-  <body>
-    <div class="container">
-      <div class="row">
+  <body class="bg-light">
+    <div
+      class="container vh-100 d-flex justify-content-center align-items-center"
+    >
+      <div class="row w-100 justify-content-center">
         <div class="col-md-6">
-          <h2>Taşınmaz Yönetim Girişi</h2>
-          <form [formGroup]="loginForm" (ngSubmit)="login()">
-            <div class="form-group">
-              <label for="email">Email</label>
+          <h2 class="mb-4 text-center">Taşınmaz Yönetim Girişi</h2>
+          <form
+            [formGroup]="loginForm"
+            (ngSubmit)="login()"
+            class="needs-validation"
+            novalidate
+          >
+            <div class="mb-3">
+              <label for="email" class="form-label">E-posta</label>
               <input
                 type="email"
                 id="email"
                 formControlName="email"
-                class="form-control"
-                placeholder="Email"
+                class="form-control form-control-md"
+                [ngClass]="{ 'is-invalid': hasError('email') }"
               />
-              <div
-                *ngIf="
-                  loginForm.get('email').touched &&
-                  loginForm.get('email').invalid
-                "
-              >
-                <small *ngIf="loginForm.get('email').hasError('required')"
-                  >Email is required.</small
-                >
-                <small *ngIf="loginForm.get('email').hasError('email')"
-                  >Please enter a valid email.</small
-                >
+              <div class="invalid-feedback" *ngIf="hasError('email')">
+                Geçerli bir e-posta adresi giriniz
               </div>
             </div>
 
-            <div class="form-group">
-              <label for="password">Password</label>
+            <div class="mb-3">
+              <label for="password" class="form-label">Şifre</label>
               <input
                 type="password"
                 id="password"
                 formControlName="password"
-                class="form-control"
-                placeholder="Password"
+                class="form-control form-control-md"
+                [ngClass]="{ 'is-invalid': hasError('password') }"
               />
-              <div
-                *ngIf="
-                  loginForm.get('password').touched &&
-                  loginForm.get('password').invalid
-                "
-              >
-                <small *ngIf="loginForm.get('password').hasError('required')"
-                  >Password is required.</small
-                >
-                <small *ngIf="loginForm.get('password').hasError('minlength')"
-                  >Password must be at least 6 characters.</small
-                >
+              <div class="invalid-feedback" *ngIf="hasError('password')">
+                Şifre en az 8 karakter olmalıdır
               </div>
+            </div>
+
+            <div *ngIf="showError" class="alert alert-danger">
+              {{ errorMessage }}
             </div>
 
             <button
               type="submit"
-              class="btn btn-primary"
               [disabled]="loginForm.invalid"
+              class="btn btn-primary w-100"
             >
-              Login
+              Giriş Yap
             </button>
           </form>
         </div>
       </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

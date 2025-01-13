@@ -21,6 +21,7 @@
     "@angular/router": "~7.1.0",
     "@auth0/angular-jwt": "^2.1.0",
     "alertifyjs": "^1.14.0",
+    "bootstrap": "^5.3.3",
     "core-js": "^2.5.4",
     "file-saver": "^2.0.5",
     "ol": "^5.3.3",

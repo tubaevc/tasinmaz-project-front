@@ -7,6 +7,9 @@ import { Map, View } from "ol";
 import TileLayer from "ol/layer/Tile";
 import OSM from "ol/source/OSM";
 import { fromLonLat, toLonLat } from "ol/proj";
+import XYZ from "ol/source/XYZ";
+import { defaults as defaultControls, ScaleLine } from "ol/control";
+
 @Component({
   selector: "app-update-tasinmaz",
   templateUrl: "./update-tasinmaz.component.html",
@@ -19,13 +22,33 @@ export class UpdateTasinmazComponent implements OnInit {
   mahalleler: any[] = [];
   tasinmazId: number;
   map: Map | undefined;
-
+  errorMessage: string = "";
+  showError: boolean = false;
+  showSuccess: boolean = false;
+  osmLayer: TileLayer<OSM>;
+  googleLayer: TileLayer<XYZ>;
+  osmOpacity: number = 1;
+  googleOpacity: number = 1;
   constructor(
     private route: ActivatedRoute,
     private apiService: ApiService,
     private fb: FormBuilder,
     private router: Router
-  ) {}
+  ) {
+    this.osmLayer = new TileLayer({
+      source: new OSM(),
+      visible: true,
+      opacity: 1,
+    });
+
+    this.googleLayer = new TileLayer({
+      source: new XYZ({
+        url: "http://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}",
+      }),
+      visible: false,
+      opacity: 1,
+    });
+  }
 
   ngOnInit(): void {
     this.tasinmazId = Number(this.route.snapshot.paramMap.get("id"));
@@ -69,24 +92,22 @@ export class UpdateTasinmazComponent implements OnInit {
       error: (err) => console.error("Taşınmaz yüklenemedi:", err),
     });
     this.map = new Map({
-      target: "map", // HTML element id
-      layers: [
-        new TileLayer({
-          source: new OSM(),
-        }),
-      ],
+      target: "map",
+      layers: [this.osmLayer, this.googleLayer],
       view: new View({
         center: fromLonLat([32.8597, 39.9334]),
         zoom: 6,
       }),
+      controls: defaultControls().extend([new ScaleLine()]),
     });
+
     this.map.on("click", (event) => {
-      const coordinates = toLonLat(event.coordinate); // Koordinatları LonLat formatına çevir
+      const coordinates = toLonLat(event.coordinate);
       console.log("Tıklanan Koordinatlar:", coordinates);
 
       // Koordinatları form alanına yerleştir
       this.tasinmazForm.patchValue({
-        koordinat: `${coordinates[0].toFixed(6)}, ${coordinates[1].toFixed(6)}`, // 6 basamaklı hassasiyet
+        koordinat: `${coordinates[0].toFixed(6)}, ${coordinates[1].toFixed(6)}`,
       });
     });
   }
@@ -157,14 +178,79 @@ export class UpdateTasinmazComponent implements OnInit {
       this.apiService.updateTasinmaz(updatedTasinmaz).subscribe({
         next: () => {
           console.log("Taşınmaz başarıyla güncellendi!"),
-            alert("tasinmaz başariyla guncellendi");
-          this.router.navigate(["/tasinmaz"]);
+            (this.showSuccess = true);
+          this.showError = false;
+          setTimeout(() => {
+            this.router.navigate(["/tasinmaz"]);
+          }, 3000);
+          // alert("tasinmaz başariyla guncellendi");
+          //  this.router.navigate(["/tasinmaz"]);
         },
-
-        error: (err) => console.error("Güncelleme hatası:", err),
+        error: (err) => {
+          this.showError = true;
+          this.errorMessage =
+            "Formu doldururken bir hata oluştu. Lütfen tekrar deneyin.";
+          console.error("Hata:", err);
+        },
+        // error: (err) => console.error("Güncelleme hatası:", err),
       });
     } else {
       console.error("Form geçersiz");
+    }
+  }
+  cancel() {
+    this.router.navigate(["/"]);
+  }
+  onOsmOpacityChange(event: any): void {
+    this.osmOpacity = parseFloat(event.target.value);
+    this.osmLayer.setOpacity(this.osmOpacity);
+  }
+
+  onGoogleOpacityChange(event: any): void {
+    this.googleOpacity = parseFloat(event.target.value);
+    this.googleLayer.setOpacity(this.googleOpacity);
+  }
+  setOsmOpacity(opacity: string): void {
+    if (this.osmLayer) {
+      this.osmLayer.setOpacity(parseFloat(opacity));
+    }
+  }
+  setGoogleOpacity(opacity: string): void {
+    if (this.googleLayer) {
+      this.googleLayer.setOpacity(parseFloat(opacity));
+    }
+  }
+  toggleOsmLayer(event: any): void {
+    const isChecked = event.target.checked;
+    if (isChecked) {
+      this.osmLayer.setVisible(true);
+      this.googleLayer.setVisible(false);
+      // Google Maps checkbox'ını uncheck yap
+      const googleCheckbox = document.getElementById(
+        "google-layer"
+      ) as HTMLInputElement;
+      if (googleCheckbox) {
+        googleCheckbox.checked = false;
+      }
+    } else {
+      this.osmLayer.setVisible(false);
+    }
+  }
+
+  toggleGoogleLayer(event: any): void {
+    const isChecked = event.target.checked;
+    if (isChecked) {
+      this.googleLayer.setVisible(true);
+      this.osmLayer.setVisible(false);
+      // OpenStreetMap checkbox'ını uncheck yap
+      const osmCheckbox = document.getElementById(
+        "osm-layer"
+      ) as HTMLInputElement;
+      if (osmCheckbox) {
+        osmCheckbox.checked = false;
+      }
+    } else {
+      this.googleLayer.setVisible(false);
     }
   }
 }

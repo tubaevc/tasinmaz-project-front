@@ -11,6 +11,7 @@ import { AccountService } from "../services/account.service";
 import { User } from "./user";
 import { AuthService } from "../services/auth.service";
 import { CustomValidators } from "../login/custom-validators";
+import { HttpErrorResponse } from "@angular/common/http";
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
@@ -19,12 +20,15 @@ import { CustomValidators } from "../login/custom-validators";
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   model: any = {};
+  errorMessage: string = "";
+  showError: boolean = false;
+
   constructor(private authService: AuthService, private fb: FormBuilder) {}
 
   ngOnInit() {
     this.loginForm = this.fb.group({
-      email: ["", [Validators.required, Validators.email]], // Email kontrolü yapılmıyor
-      password: ["", [Validators.required, Validators.minLength(8)]], // Şifre kontrolü zorunlu
+      email: ["", [Validators.required, Validators.email]],
+      password: ["", [Validators.required, Validators.minLength(8)]],
     });
   }
 
@@ -44,8 +48,12 @@ export class LoginComponent implements OnInit {
     this.authService.login(loginData);
     console.log(loginData);
 
-    // Giriş işlemi sonrası loglama
     console.log("Login email:", loginData.userEmail);
     console.log("Login password:", loginData.password);
+  }
+
+  hasError(controlName: string): boolean {
+    const control = this.loginForm.get(controlName);
+    return control && control.invalid && (control.dirty || control.touched);
   }
 }

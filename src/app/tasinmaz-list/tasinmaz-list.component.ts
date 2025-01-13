@@ -29,7 +29,19 @@ export class TasinmazList implements OnInit {
   searchTerm: string = "";
   map: Map | undefined;
   vectorLayer: VectorLayer;
+  pageSize: number = 5;
+  currentPage: number = 1;
+  totalRecords: number = this.tasinmazlar.length;
 
+  alertMessage: string = "";
+  alertType: "success" | "danger" | "warning" = "warning";
+  showAlert: boolean = false;
+  showDeleteModal: boolean = false;
+  showSuccessModal: boolean = false;
+  showErrorModal: boolean = false;
+  selectedCount: number = 0;
+  showUpdateErrorModal: boolean = false;
+  errorMessage: string = "";
   constructor(
     private apiService: ApiService,
     private router: Router,
@@ -42,7 +54,7 @@ export class TasinmazList implements OnInit {
       style: new Style({
         image: new Icon({
           anchor: [0.5, 1],
-          src: "https://openlayers.org/en/latest/examples/data/icon.png", // Marker ikonu
+          src: "https://openlayers.org/en/latest/examples/data/icon.png",
         }),
       }),
     });
@@ -63,12 +75,13 @@ export class TasinmazList implements OnInit {
         new TileLayer({
           source: new OSM(),
         }),
-        this.vectorLayer, // Marker katmanını ekle
+        this.vectorLayer,
       ],
       view: new View({
-        center: fromLonLat([32.8597, 39.9334]), // Türkiye'nin koordinatları
+        center: fromLonLat([32.8597, 39.9334]),
         zoom: 5,
       }),
+      controls: defaultControls().extend([new ScaleLine()]),
     });
   }
   loadTasinmazlar(): void {
@@ -78,7 +91,7 @@ export class TasinmazList implements OnInit {
         this.filteredTasinmazlar = [...this.tasinmazlar];
         console.log("Filtered Tasinmazlar:", this.filteredTasinmazlar);
 
-        this.addMarkersToMap(); // İlk olarak tüm listeyi göster
+        this.addMarkersToMap();
       });
     } else {
       const userId = this.authService.getCurrentUserId();
@@ -93,7 +106,6 @@ export class TasinmazList implements OnInit {
             console.log("Filtered Tasinmazlar:", this.filteredTasinmazlar);
 
             this.addMarkersToMap();
-            // Kullanıcı verilerini filtreleme için hazırla
           },
           error: (error) => {
             console.error("Veri çekme hatası:", error);
@@ -102,38 +114,7 @@ export class TasinmazList implements OnInit {
       }
     }
   }
-  // loadTasinmazlar(): void {
-  //   if (this.authService.isAdmin()) {
-  //     this.apiService.getAllTasinmaz().subscribe({
-  //       next: (data: Tasinmaz[]) => {
-  //         this.tasinmazlar = data.map((item) => ({
-  //           ...item,
-  //           selected: false,
-  //         }));
-  //         console.log(this.tasinmazlar);
-  //       },
-  //       error: (error) => {
-  //         console.error("Veri çekme hatası:", error);
-  //       },
-  //     });
-  //   } else {
-  //     const userId = this.authService.getCurrentUserId();
-  //     if (userId) {
-  //       this.apiService.getTasinmazlarByUser(userId).subscribe({
-  //         next: (data: Tasinmaz[]) => {
-  //           this.tasinmazlar = data.map((item) => ({
-  //             ...item,
-  //             selected: false,
-  //           }));
-  //           console.log(this.tasinmazlar);
-  //         },
-  //         error: (error) => {
-  //           console.error("Veri çekme hatası:", error);
-  //         },
-  //       });
-  //     }
-  //   }
-  // }
+
   exportToExcel(): void {
     console.log("tasinmazlar:", this.tasinmazlar);
 
@@ -157,39 +138,86 @@ export class TasinmazList implements OnInit {
       .map((t) => t.id);
 
     if (selectedIds.length === 0) {
-      alert("Silinecek taşınmaz seçilmedi!");
+      this.showErrorModal = true;
+      setTimeout(() => {
+        this.showErrorModal = false;
+      }, 3000);
       return;
     }
 
-    if (confirm("Seçili taşınmazları silmek istediğinizden emin misiniz?")) {
-      this.apiService.deleteMultipleTasinmaz(selectedIds).subscribe({
-        next: () => {
-          this.tasinmazlar = this.tasinmazlar.filter(
-            (t) => !selectedIds.includes(t.id)
-          );
-          this.loadTasinmazlar();
-        },
-        error: (err) => {
-          //console.error("Silme işlemi hatası:", err);
-          console.log("Error Response:", err.error);
-          //console.log("HTTP Status Code:", err.status);
-        },
-      });
-    }
+    this.selectedCount = selectedIds.length;
+    this.showDeleteModal = true;
   }
+
+  confirmDelete(): void {
+    const selectedIds = this.tasinmazlar
+      .filter((t) => t.selected)
+      .map((t) => t.id);
+
+    this.apiService.deleteMultipleTasinmaz(selectedIds).subscribe({
+      next: () => {
+        this.tasinmazlar = this.tasinmazlar.filter(
+          (t) => !selectedIds.includes(t.id)
+        );
+        this.showDeleteModal = false;
+        this.showSuccessModal = true;
+
+        setTimeout(() => {
+          this.showSuccessModal = false;
+          this.router.navigate(["/tasinmaz"]);
+        }, 3000);
+
+        this.loadTasinmazlar();
+      },
+      error: (err) => {
+        console.error("Silme işlemi hatası:", err);
+        this.showDeleteModal = false;
+        this.showErrorModal = true;
+
+        setTimeout(() => {
+          this.showErrorModal = false;
+        }, 3000);
+      },
+    });
+  }
+
+  closeModals(): void {
+    this.showDeleteModal = false;
+    this.showSuccessModal = false;
+    this.showErrorModal = false;
+    this.showUpdateErrorModal = false;
+  }
+  cancel() {
+    this.router.navigate(["/"]);
+  }
+
   anySelected(): boolean {
     return this.tasinmazlar.some((t) => t.selected);
   }
 
   onEditSelected(): void {
-    const selectedTasinmaz = this.tasinmazlar.find((t) => t.selected);
+    const selectedTasinmazlar = this.tasinmazlar.filter((t) => t.selected);
 
-    if (!selectedTasinmaz) {
-      alert(" tasinmaz secilmedi");
+    if (selectedTasinmazlar.length === 0) {
+      this.errorMessage = "Lütfen güncellemek için bir taşınmaz seçiniz.";
+      this.showUpdateErrorModal = true;
+      setTimeout(() => {
+        this.showUpdateErrorModal = false;
+      }, 3000);
       return;
     }
 
-    //console.log("Güncellenecek Taşınmaz ID:", selectedTasinmaz.id);
+    if (selectedTasinmazlar.length > 1) {
+      this.errorMessage =
+        "Lütfen güncellemek için sadece bir taşınmaz seçiniz.";
+      this.showUpdateErrorModal = true;
+      setTimeout(() => {
+        this.showUpdateErrorModal = false;
+      }, 3000);
+      return;
+    }
+
+    const selectedTasinmaz = selectedTasinmazlar[0];
     this.router.navigate([`/update-tasinmaz/${selectedTasinmaz.id}`]);
   }
   toggleSelectAll(event: Event): void {
@@ -205,10 +233,8 @@ export class TasinmazList implements OnInit {
     const term = this.searchTerm.toLowerCase();
 
     if (!term) {
-      // Eğer arama terimi boşsa, orijinal listeyi göster
       this.filteredTasinmazlar = [...this.tasinmazlar];
     } else {
-      // Filtreleme işlemini uygula
       this.filteredTasinmazlar = this.tasinmazlar.filter((tasinmaz) =>
         Object.values({
           userId: tasinmaz.userId,
@@ -228,8 +254,8 @@ export class TasinmazList implements OnInit {
     }
   }
   clearFilter(): void {
-    this.searchTerm = ""; // Arama terimini sıfırla
-    this.filteredTasinmazlar = [...this.tasinmazlar]; // Orijinal listeyi göster
+    this.searchTerm = "";
+    this.filteredTasinmazlar = [...this.tasinmazlar];
   }
   // string koordinati int alma
   private parseCoordinates(coordinateString: string | null): [number, number] {
@@ -274,5 +300,24 @@ export class TasinmazList implements OnInit {
     });
 
     console.log("markerlar eklendi");
+  }
+  get totalPages(): number {
+    return Math.ceil(this.filteredTasinmazlar.length / this.pageSize);
+  }
+
+  get pages(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+  get paginatedTasinmazlar() {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    return this.filteredTasinmazlar.slice(startIndex, endIndex);
+  }
+
+  goToPage(page: number) {
+    if (page < 1 || page > this.totalPages) {
+      return;
+    }
+    this.currentPage = page;
   }
 }
